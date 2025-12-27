@@ -2,64 +2,90 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// المنتجات
+const products = [
+  { id: 1, name: "كتاب إلكتروني", price: "10$", desc: "تعلم الأساسيات" },
+  { id: 2, name: "دورة فيديو", price: "25$", desc: "شرح عملي كامل" },
+  { id: 3, name: "قوالب جاهزة", price: "15$", desc: "ملفات احترافية" }
+];
+
+// صفحة المتجر
 app.get("/", (req, res) => {
-  res.send(`
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-<meta charset="UTF-8">
-<title>متجر فايلز</title>
-<style>
-body {
-  font-family: Arial;
-  background: linear-gradient(#4facfe,#00f2fe);
-  text-align: center;
-  padding: 40px;
-  color: #333;
-}
-.store {
-  background: white;
-  padding: 25px;
-  border-radius: 15px;
-  max-width: 350px;
-  margin: auto;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-}
-button {
-  background: #4facfe;
-  color: white;
-  border: none;
-  padding: 14px 25px;
-  font-size: 16px;
-  border-radius: 8px;
-}
-</style>
-</head>
-<body>
+  let html = `
+  <html lang="ar">
+  <head>
+    <meta charset="UTF-8">
+    <title>متجر فايلز</title>
+    <style>
+      body {
+        font-family: Arial;
+        background: #f2f2f2;
+        text-align: center;
+        padding: 30px;
+      }
+      .product {
+        background: white;
+        margin: 15px auto;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 350px;
+        box-shadow: 0 0 10px #ccc;
+      }
+      button {
+        background: green;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🛒 متجر فايلز</h1>
+  `;
 
-<div class="store">
-<h1>🛒 متجر فايلز</h1>
-<h2>كتاب إلكتروني</h2>
-<p>تعلم من الصفر بأسلوب بسيط</p>
-<p><strong>السعر: 10$</strong></p>
-<a href="/buy"><button>شراء الآن</button></a>
-</div>
+  products.forEach(p => {
+    html += `
+      <div class="product">
+        <h2>${p.name}</h2>
+        <p>${p.desc}</p>
+        <p><strong>السعر: ${p.price}</strong></p>
+        <a href="/buy/${p.id}">
+          <button>شراء الآن</button>
+        </a>
+      </div>
+    `;
+  });
 
-</body>
-</html>
-`);
+  html += `
+  </body>
+  </html>
+  `;
+
+  res.send(html);
 });
 
-app.get("/buy", (req, res) => {
+// صفحة الشراء
+app.get("/buy/:id", (req, res) => {
+  const product = products.find(p => p.id == req.params.id);
+  if (!product) return res.send("❌ المنتج غير موجود");
+
   res.send(`
-    <h2>✅ تم الشراء بنجاح (تجربة)</h2>
-    <p>اضغط لتحميل الملف</p>
-    <a href="/download"><button>تحميل</button></a>
+    <h2>✅ شراء: ${product.name}</h2>
+    <p>السعر: ${product.price}</p>
+    <a href="/download/${product.id}">
+      <button>تحميل المنتج</button>
+    </a>
   `);
 });
 
-app.get("/download", (req, res) => {
-  res.send("📥 هنا سيتم تحميل الملف الحقيقي لاحقًا");
+// صفحة التحميل (تجريبية)
+app.get("/download/:id", (req, res) => {
+  const product = products.find(p => p.id == req.params.id);
+  if (!product) return res.send("❌ المنتج غير موجود");
+
+  res.send(`📥 سيتم تحميل (${product.name}) هنا`);
 });
 
 app.listen(PORT, () => {
