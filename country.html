@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>من أي دولة شريك حياتك؟</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{font-family:Arial;text-align:center;background:#f4f4f4;padding:20px}
+button{padding:15px 25px;font-size:18px}
+.result{margin-top:20px;font-size:20px}
+</style>
+</head>
+<body>
+
+<h1>🌍 من أي دولة شريك حياتك؟</h1>
+<p>اضغط الزر واعرف (للترفيه فقط)</p>
+
+<button onclick="play()">اضغط هنا</button>
+
+<div class="result" id="result"></div>
+
+<script>
+function play(){
+  const countries=["مصر","المغرب","السعودية","تركيا","إندونيسيا","اليمن"];
+  const c=countries[Math.floor(Math.random()*countries.length)];
+  document.getElementById("result").innerHTML="شريك حياتك من: <b>"+c+"</b>";
+}
+</script>
+
+</body>
+</html>
