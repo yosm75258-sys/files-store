@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>متى ستتزوج؟</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{font-family:Arial;text-align:center;background:#f4f4f4;padding:20px}
+button{padding:15px 25px;font-size:18px}
+.result{margin-top:20px;font-size:20px}
+</style>
+</head>
+<body>
+
+<h1>💍 متى ستتزوج؟</h1>
+<p>اضغط الزر واعرف موعد زواجك (للترفيه فقط)</p>
+
+<button onclick="play()">اضغط هنا</button>
+
+<div class="result" id="result"></div>
+
+<script>
+function play(){
+  const years=["2026","2027","2028","2029","2030"];
+  const year=years[Math.floor(Math.random()*years.length)];
+  document.getElementById("result").innerHTML="سنة الزواج: <b>"+year+"</b>";
+}
+</script>
+
+</body>
+</html>
